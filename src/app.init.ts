@@ -25,7 +25,7 @@ const initPostgresConnection = async () => {
     database: process.env.DB_NAME,
     entities: [__dirname + "/entities/*.{js,ts}"],
     migrations: [__dirname + "/migrations/*{.ts,.js}"],
-    synchronize: true,
+    synchronize: false,
   });
   return connection;
 };
