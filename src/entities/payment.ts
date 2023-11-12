@@ -22,14 +22,19 @@ export class Payment extends BaseEntity {
   })
   createdOn: Date;
 
-  @Column({ type: "enum", name: "paymentStatus", enum: PaymentStatus })
+  @Column({
+    type: "enum",
+    name: "paymentStatus",
+    enum: PaymentStatus,
+    default: PaymentStatus.Unpaid,
+  })
   paymentStatus: PaymentStatus;
 
   @Column({ type: "enum", name: "paymentType", enum: PaymentType })
   paymentType: PaymentType;
 
-  @Column({ type: "integer", name: "discountId" })
-  discountId: number;
+  @Column({ type: "integer", name: "discountId", nullable: true })
+  discountId: number | null;
 
   @ManyToOne(() => Discount, (discount) => discount.payments)
   @JoinColumn([{ name: "discountId", referencedColumnName: "id" }])

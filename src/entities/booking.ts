@@ -21,7 +21,12 @@ export class Booking extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
   id: number;
 
-  @Column({ type: "enum", name: "status", enum: BookingStatus })
+  @Column({
+    type: "enum",
+    name: "status",
+    enum: BookingStatus,
+    default: BookingStatus.Requested,
+  })
   status: BookingStatus;
 
   @Column({ type: "integer", name: "showId" })
