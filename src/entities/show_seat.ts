@@ -10,6 +10,7 @@ import {
 import { Booking } from "./booking";
 
 @Index("showSeats_pkey", ["id"], { unique: true })
+@Index("IX_showSeats_bookingId", ["bookingId"])
 @Entity("showSeats", { schema: "public" })
 export class ShowSeat extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })

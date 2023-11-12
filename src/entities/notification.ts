@@ -11,6 +11,8 @@ import { User } from "./user";
 import { Booking } from "./booking";
 
 @Index("notifications_pkey", ["id"], { unique: true })
+@Index("IX_notifications_userId", ["userId"])
+@Index("IX_notifications_bookingId", ["bookingId"])
 @Entity("notifications", { schema: "public" })
 export class Notification extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })

@@ -10,6 +10,7 @@ import {
 import { User } from "./user";
 
 @Index("movies_pkey", ["id"], { unique: true })
+@Index("IX_movies_userId", ["userId"])
 @Entity("movies", { schema: "public" })
 export class Movie extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
