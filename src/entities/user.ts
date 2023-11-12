@@ -39,7 +39,7 @@ export class User extends BaseEntity {
   })
   avatar: string | null;
 
-  @Column({ type: "integer", name: "role" })
+  @Column({ type: "enum", name: "role", enum: Role })
   role: Role;
 
   @OneToMany(() => Notification, (notification) => notification.user)

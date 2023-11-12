@@ -22,7 +22,7 @@ export class CinemaHallSeat extends BaseEntity {
   @Column({ type: "integer", name: "seatColumn" })
   seatColumn: number;
 
-  @Column({ type: "integer", name: "seatType" })
+  @Column({ type: "enum", name: "seatType", enum: SeatType })
   seatType: SeatType;
 
   @Column({ type: "integer", name: "cinemaHallId" })

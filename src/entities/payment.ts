@@ -22,10 +22,10 @@ export class Payment extends BaseEntity {
   })
   createdOn: Date;
 
-  @Column({ type: "integer", name: "paymentStatus" })
+  @Column({ type: "enum", name: "paymentStatus", enum: PaymentStatus })
   paymentStatus: PaymentStatus;
 
-  @Column({ type: "integer", name: "paymentType" })
+  @Column({ type: "enum", name: "paymentType", enum: PaymentType })
   paymentType: PaymentType;
 
   @Column({ type: "integer", name: "discountId" })
