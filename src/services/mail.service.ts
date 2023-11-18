@@ -1,22 +1,39 @@
 import { BaseHttpService } from "@/base";
+import { ACTIVAT_USER, MAIL_ACTION } from "@/constants/mail.const";
 import nodemailer from "nodemailer";
 
 export interface MailInfo {
+  mailAction: MAIL_ACTION;
   toEmail: string;
+  toUser: string;
   subject?: string;
   content?: string;
+  otp?: string;
 }
 
 export class MailService extends BaseHttpService<any> {
   public subject?: string;
   public content?: string;
   public toEmail: string;
+  public toUser: string;
+  public mailAction: MAIL_ACTION;
+  public otp?: string;
 
-  constructor({ subject, content, toEmail }: MailInfo) {
+  constructor({
+    subject,
+    content,
+    toEmail,
+    mailAction,
+    toUser,
+    otp,
+  }: MailInfo) {
     super();
     this.subject = subject;
     this.content = content;
     this.toEmail = toEmail;
+    this.mailAction = mailAction;
+    this.toUser = toUser;
+    this.otp = otp;
   }
 
   sendMail() {
@@ -31,8 +48,14 @@ export class MailService extends BaseHttpService<any> {
       },
     });
 
-    const subject = this.subject;
-    const content = this.content;
+    let subject = this.subject;
+    let content = this.content;
+
+    switch (this.mailAction) {
+      case MAIL_ACTION.ACTIVATE_USER:
+        subject = "Verification OTP";
+        content = ACTIVAT_USER(this.toUser, this.otp);
+    }
 
     const mailOptions = {
       from: {

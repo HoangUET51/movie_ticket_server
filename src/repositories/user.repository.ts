@@ -47,7 +47,8 @@ class UserRepository extends BaseRepository<User> {
         throw new AppError("Email or password is incorrect");
       }
 
-      const comparePassword = checkPassword(password, user.password);
+      const comparePassword = await checkPassword(password, user.password);
+
       if (!comparePassword) {
         throw new AppError("Email or password is incorrect");
       }

@@ -1,3 +1,7 @@
+import {
+  REGEX_DEFAULT_EMAIL_FORMAT,
+  REGEX_PHONE_NUMBER_FORMAT,
+} from "@/constants/regex.const";
 import bcrypt from "bcryptjs";
 import otpGenerator from "otp-generator";
 
@@ -19,4 +23,18 @@ export const generateOTP = () => {
   });
 
   return otp;
+};
+
+export const isValidEmail = (
+  value: any,
+  emailFormat = REGEX_DEFAULT_EMAIL_FORMAT,
+) => {
+  return emailFormat.test(value);
+};
+
+export const isValidPhoneNumber = (
+  value: any,
+  phoneNumberFormat = REGEX_PHONE_NUMBER_FORMAT,
+) => {
+  return phoneNumberFormat.test(value);
 };
