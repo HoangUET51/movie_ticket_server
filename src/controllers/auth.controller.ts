@@ -34,7 +34,7 @@ class _AuthController extends BaseController {
       const checkUser = await userRepository.getByEmail(email);
 
       if (checkUser) {
-        throw new AppError("User not found");
+        throw new AppError("User already exists");
       }
 
       const otp = generateOTP();
