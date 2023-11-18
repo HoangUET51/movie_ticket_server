@@ -16,6 +16,8 @@ import { ShowSeat } from "./show_seat";
 import { Payment } from "./payment";
 
 @Index("bookings_pkey", ["id"], { unique: true })
+@Index("IX_bookings_paymentId", ["paymentId"])
+@Index("IX_bookings_showId", ["showId"])
 @Entity("bookings", { schema: "public" })
 export class Booking extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })

@@ -13,6 +13,7 @@ import { CinemaHallSeat } from "./cinema_hall_seat";
 import { Cinema } from "./cinema";
 
 @Index("cinemaHalls_pkey", ["id"], { unique: true })
+@Index("IX_cinemaHalls_cinemaId", ["cinemaId"])
 @Entity("cinemaHalls", { schema: "public" })
 export class CinemaHall extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })

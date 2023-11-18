@@ -11,6 +11,7 @@ import { PaymentStatus, PaymentType } from "@/constants/common.const";
 import { Discount } from "./discount";
 
 @Index("payments_pkey", ["id"], { unique: true })
+@Index("IX_payments_discountId", ["discountId"])
 @Entity("payments", { schema: "public" })
 export class Payment extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })

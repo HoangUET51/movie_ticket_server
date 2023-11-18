@@ -11,6 +11,7 @@ import { CinemaHall } from "./cinema_hall";
 import { SeatType } from "@/constants/common.const";
 
 @Index("cinemaHallSeats_pkey", ["id"], { unique: true })
+@Index("IX_cinemaHallSeats_cinemaHallId", ["cinemaHallId"])
 @Entity("cinemaHallSeats", { schema: "public" })
 export class CinemaHallSeat extends BaseEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
