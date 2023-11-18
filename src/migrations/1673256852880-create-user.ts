@@ -50,6 +50,11 @@ export class createUser1673256852880 implements MigrationInterface {
             isNullable: true,
             length: "2000",
           },
+          {
+            name: "role",
+            type: "varchar",
+            isNullable: false,
+          },
         ],
       }),
     );
@@ -121,6 +126,12 @@ export class createUser1673256852880 implements MigrationInterface {
             name: "durationInMins",
             type: "int",
             isNullable: false,
+          },
+          {
+            name: "language",
+            type: "varchar",
+            isNullable: false,
+            length: "50",
           },
           {
             name: "releaseDate",
@@ -329,7 +340,12 @@ export class createUser1673256852880 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: "startDate",
+            name: "startTime",
+            type: "datetime",
+            isNullable: false,
+          },
+          {
+            name: "endTime",
             type: "datetime",
             isNullable: false,
           },
