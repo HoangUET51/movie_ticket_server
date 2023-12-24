@@ -4,7 +4,7 @@ import { getCustomRepository } from "typeorm";
 import UserRepository from "@/repositories/user.repository";
 import { generateOTP, hashPassword } from "@/helpers/ulti.helper";
 import { Role } from "@/constants/common.const";
-import { AppError } from "@/models";
+import { AppError, UserResponse } from "@/models";
 import { sign, verify } from "jsonwebtoken";
 import { MailInfo, sendEmails } from "@/services/mail.service";
 import { MAIL_ACTION } from "@/constants/mail.const";
@@ -112,6 +112,28 @@ class _AuthController extends BaseController {
 
       if (!result) {
         throw new AppError("create failed");
+      }
+
+      this.success(req, res)({ result });
+    } catch (e) {
+      next(this.getManagedError(e));
+    }
+  }
+
+  async upLoadAvatar(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userRequested: UserResponse = req.body.user;
+      const { avatar } = req.body;
+
+      const userRepository = getCustomRepository(UserRepository);
+
+      const result = await userRepository.upLoadAvatar(
+        avatar,
+        userRequested.email,
+      );
+
+      if (!result) {
+        throw new AppError("Uploaded failed");
       }
 
       this.success(req, res)({ result });

@@ -8,11 +8,14 @@ import { handleAppError, handleError } from "./middlewares/error.middleware";
 import { Server } from "socket.io";
 import sockets from "./socket/index.socket";
 import { initEnvironments, initPostgresConnection } from "./app.init";
+import path from "path";
 
 const app = express();
 initEnvironments();
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use("/public", express.static(path.join(__dirname, "../public")));
 app.use("/api", routes);
 app.use(
   (
