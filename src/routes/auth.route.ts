@@ -1,4 +1,5 @@
 import AuthController from "@/controllers/auth.controller";
+import { authenticateJwt } from "@/middlewares/auth.middleware";
 import {
   validateActivateUser,
   validateLogin,
@@ -9,10 +10,11 @@ import express from "express";
 
 const router = express.Router();
 
-const { login, registerUser, activateUser } = AuthController;
+const { login, registerUser, activateUser, upLoadAvatar } = AuthController;
 
 router.post("/login", validate(validateLogin()), login);
 router.post("/register", validate(validateRegisterUser()), registerUser);
 router.post("/activate", validate(validateActivateUser()), activateUser);
+router.post("/upload/avatar", authenticateJwt, upLoadAvatar);
 
 export default router;

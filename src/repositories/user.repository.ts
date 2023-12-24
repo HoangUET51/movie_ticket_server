@@ -40,6 +40,20 @@ class UserRepository extends BaseRepository<User> {
     }
   }
 
+  async upLoadAvatar(avatar: string, email: string) {
+    try {
+      const user = await this.getByEmail(email);
+      if (!user) {
+        throw new AppError("Email is incorrect");
+      }
+      user.avatar = avatar;
+      const newUser = await this.manager.save(user, { reload: false });
+      return newUser;
+    } catch (e) {
+      return null;
+    }
+  }
+
   async login(email: string, password: string) {
     try {
       const user = await this.getByEmail(email);

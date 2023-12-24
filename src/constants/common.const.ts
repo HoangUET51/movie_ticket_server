@@ -47,3 +47,8 @@ export enum SeatType {
   EmergencyExit,
   Other,
 }
+
+export const TYPE_PATH = {
+  avatar: "avatar",
+  icon: "icon",
+};
