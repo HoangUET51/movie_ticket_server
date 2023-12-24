@@ -11,6 +11,14 @@ export interface UserParamsRequest {
   role: Role;
 }
 
+export interface UpdateUserParamsRequest {
+  id: number;
+  fullName?: string;
+  address?: string;
+  phone?: string;
+  password?: string;
+}
+
 export interface UserModel {
   user: UserResponse;
   accessToken: string;

@@ -1,8 +1,13 @@
 import { User } from "@/entities/user";
 import { EntityRepository } from "typeorm";
 import BaseRepository from "@/base/base.repository";
-import { AppError, UserModel, UserParamsRequest } from "@/models";
-import { checkPassword } from "@/helpers/ulti.helper";
+import {
+  AppError,
+  UpdateUserParamsRequest,
+  UserModel,
+  UserParamsRequest,
+} from "@/models";
+import { checkPassword, hashPassword } from "@/helpers/ulti.helper";
 import { sign } from "jsonwebtoken";
 
 @EntityRepository(User)
@@ -38,6 +43,38 @@ class UserRepository extends BaseRepository<User> {
     } catch (e) {
       return null;
     }
+  }
+
+  async updateUser(params: UpdateUserParamsRequest) {
+    try {
+      const oldUser = await this.findOne({ where: { id: params.id } });
+      console.log(oldUser);
+      const user = new User();
+
+      if (!oldUser) {
+        throw new AppError("Updated failed");
+      }
+      user.id = params.id;
+      user.fullName = params?.fullName ?? oldUser.fullName;
+      user.phone = params?.phone ?? oldUser.phone;
+      user.address = params?.address ?? oldUser.address;
+      user.password = params?.password
+        ? hashPassword(params?.password)
+        : oldUser.password;
+
+      await this.manager.save(user, { reload: false });
+      return this.getById(user.id);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async getById(id: number) {
+    return this.createQueryBuilder("users")
+      .where("users.id = :id", {
+        id,
+      })
+      .getOne();
   }
 
   async upLoadAvatar(avatar: string, email: string) {
