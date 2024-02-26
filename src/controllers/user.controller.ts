@@ -25,7 +25,7 @@ class _UserController extends BaseController {
         throw new AppError("Updated failed");
       }
 
-      this.success(req, res)({ result });
+      this.success(req, res)(result);
     } catch (e) {
       next(this.getManagedError(e));
     }

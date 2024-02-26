@@ -6,9 +6,9 @@ export const validateLogin = () => {
   return [
     body("email")
       .notEmpty()
-      .withMessage("email is required")
+      .withMessage("Email is required")
       .isString()
-      .withMessage("email is invalid")
+      .withMessage("Email is invalid")
       .trim()
       .custom((value) => {
         if (!value || isValidEmail(value)) {
@@ -16,13 +16,13 @@ export const validateLogin = () => {
         }
         return false;
       })
-      .withMessage("email is invalid"),
+      .withMessage("Email is invalid"),
     body("password")
       .notEmpty()
-      .withMessage("password is required")
+      .withMessage("Password is required")
       .trim()
       .isString()
-      .withMessage("password is invalid"),
+      .withMessage("Password is invalid"),
   ];
 };
 

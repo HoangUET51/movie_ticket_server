@@ -18,7 +18,7 @@ class _AuthController extends BaseController {
 
       const result = await userRepository.login(email, password);
       if (!result) {
-        throw new AppError("Login failed");
+        throw new AppError("Email or password is incorrect");
       }
 
       this.success(req, res)(result);
