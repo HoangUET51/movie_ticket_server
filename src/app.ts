@@ -49,10 +49,7 @@ setImmediate(async () => {
   }
 
   const server = app.listen(process.env.APP_PORT, () => {
-    LogHelper.logInfo(
-      "App listening on",
-      `http://localhost:${process.env.APP_PORT}`,
-    );
+    LogHelper.logInfo("App listening on", `${process.env.APP_HOST_SERVER}`);
   });
 
   const io = new Server(server, {
