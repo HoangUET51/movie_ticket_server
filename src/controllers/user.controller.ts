@@ -3,6 +3,8 @@ import { BaseController } from "../base";
 import { getCustomRepository } from "typeorm";
 import UserRepository from "@/repositories/user.repository";
 import { AppError, UserResponse } from "@/models";
+import { MailInfo, sendEmails } from "@/services/mail.service";
+import { MAIL_ACTION } from "@/constants/mail.const";
 
 class _UserController extends BaseController {
   async updateUser(req: Request, res: Response, next: NextFunction) {
@@ -48,6 +50,32 @@ class _UserController extends BaseController {
       }
 
       this.success(req, res)({ result });
+    } catch (e) {
+      next(this.getManagedError(e));
+    }
+  }
+
+  async forgotPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email } = req.body;
+      const userRepository = getCustomRepository(UserRepository);
+      const result = await userRepository.forgotPassword(email);
+
+      if (!result) {
+        throw new AppError("Updated failed");
+      }
+
+      const mailInfo: MailInfo = {
+        mailAction: MAIL_ACTION.FORGOT_PASSWORD,
+        toEmail: email,
+        password: result.password,
+        toUser: result.fullName,
+      };
+
+      //sendPassword
+      sendEmails([mailInfo]);
+
+      this.success(req, res)({ isUpdated: true });
     } catch (e) {
       next(this.getManagedError(e));
     }

@@ -26,6 +26,24 @@ export const validateLogin = () => {
   ];
 };
 
+export const validateEmail = () => {
+  return [
+    body("email")
+      .notEmpty()
+      .withMessage("Email is required")
+      .isString()
+      .withMessage("Email is invalid")
+      .trim()
+      .custom((value) => {
+        if (!value || isValidEmail(value)) {
+          return true;
+        }
+        return false;
+      })
+      .withMessage("Email is invalid"),
+  ];
+};
+
 export const validateRegisterUser = () => {
   return [
     body("email")

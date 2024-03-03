@@ -1,5 +1,9 @@
 import { BaseHttpService } from "@/base";
-import { ACTIVAT_USER, MAIL_ACTION } from "@/constants/mail.const";
+import {
+  ACTIVAT_USER,
+  FORGOT_PASSWORD,
+  MAIL_ACTION,
+} from "@/constants/mail.const";
 import nodemailer from "nodemailer";
 
 export interface MailInfo {
@@ -9,6 +13,7 @@ export interface MailInfo {
   subject?: string;
   content?: string;
   otp?: string;
+  password?: string;
 }
 
 export class MailService extends BaseHttpService<any> {
@@ -18,6 +23,7 @@ export class MailService extends BaseHttpService<any> {
   public toUser: string;
   public mailAction: MAIL_ACTION;
   public otp?: string;
+  public password?: string;
 
   constructor({
     subject,
@@ -26,6 +32,7 @@ export class MailService extends BaseHttpService<any> {
     mailAction,
     toUser,
     otp,
+    password,
   }: MailInfo) {
     super();
     this.subject = subject;
@@ -34,6 +41,7 @@ export class MailService extends BaseHttpService<any> {
     this.mailAction = mailAction;
     this.toUser = toUser;
     this.otp = otp;
+    this.password = password;
   }
 
   sendMail() {
@@ -55,6 +63,11 @@ export class MailService extends BaseHttpService<any> {
       case MAIL_ACTION.ACTIVATE_USER:
         subject = "Verification OTP";
         content = ACTIVAT_USER(this.toUser, this.otp);
+        break;
+      case MAIL_ACTION.FORGOT_PASSWORD:
+        subject = "Forgot Password";
+        content = FORGOT_PASSWORD(this.toUser, this.password);
+        break;
     }
 
     const mailOptions = {
