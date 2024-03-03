@@ -7,7 +7,11 @@ import {
   UserModel,
   UserParamsRequest,
 } from "@/models";
-import { checkPassword, hashPassword } from "@/helpers/ulti.helper";
+import {
+  checkPassword,
+  generatePassword,
+  hashPassword,
+} from "@/helpers/ulti.helper";
 import { sign } from "jsonwebtoken";
 
 @EntityRepository(User)
@@ -130,6 +134,21 @@ class UserRepository extends BaseRepository<User> {
       };
 
       return userModel;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async forgotPassword(email: string) {
+    try {
+      const user = await this.getByEmail(email);
+      if (!user) {
+        throw new AppError("Email is incorrect");
+      }
+      const newPassword = generatePassword();
+      user.password = hashPassword(newPassword);
+      await this.manager.save(user, { reload: false });
+      return { password: newPassword, fullName: user.fullName };
     } catch (e) {
       return null;
     }

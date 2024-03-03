@@ -25,6 +25,10 @@ export const generateOTP = () => {
   return otp;
 };
 
+export const generatePassword = () => {
+  return Math.random().toString(36).slice(-8);
+};
+
 export const isValidEmail = (
   value: any,
   emailFormat = REGEX_DEFAULT_EMAIL_FORMAT,
