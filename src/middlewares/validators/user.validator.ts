@@ -77,11 +77,11 @@ export const validateRegisterUser = () => {
 
 export const validateActivateUser = () => {
   return [
-    body("token")
+    body("accessToken")
       .notEmpty()
-      .withMessage("token is required")
+      .withMessage("AccessToken is required")
       .isString()
-      .withMessage("token is invalid")
+      .withMessage("AccessToken is invalid")
       .trim(),
     body("otp")
       .notEmpty()

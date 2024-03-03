@@ -38,7 +38,7 @@ class _AuthController extends BaseController {
       }
 
       const otp = generateOTP();
-      const token = sign(
+      const accessToken = sign(
         {
           email,
           phone,
@@ -61,7 +61,7 @@ class _AuthController extends BaseController {
       //sendOTP
       sendEmails([mailInfo]);
 
-      this.success(req, res)({ token });
+      this.success(req, res)({ accessToken });
     } catch (e) {
       next(this.getManagedError(e));
     }
@@ -69,13 +69,16 @@ class _AuthController extends BaseController {
 
   async activateUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const { token, otp } = req.body;
+      const { accessToken, otp } = req.body;
 
-      if (!token) {
+      if (!accessToken) {
         throw new AppError("create failed");
       }
 
-      const decoded: any = verify(token, process.env.JWT_SECRET_KEY ?? "");
+      const decoded: any = verify(
+        accessToken,
+        process.env.JWT_SECRET_KEY ?? "",
+      );
 
       if (!decoded) {
         throw new AppError("create failed");

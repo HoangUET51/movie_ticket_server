@@ -114,7 +114,7 @@ class UserRepository extends BaseRepository<User> {
           name: user.fullName,
         },
         `${process.env.JWT_SECRET_KEY}`,
-        { expiresIn: "1d" },
+        { expiresIn: "1h" },
       );
 
       const userModel: UserModel = {
