@@ -48,7 +48,6 @@ class UserRepository extends BaseRepository<User> {
   async updateUser(params: UpdateUserParamsRequest) {
     try {
       const oldUser = await this.findOne({ where: { id: params.id } });
-      console.log(oldUser);
       const user = new User();
 
       if (!oldUser) {
