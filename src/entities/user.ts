@@ -33,7 +33,7 @@ export class User extends BaseEntity {
 
   @Column({
     type: "character varying",
-    length: 2000,
+    length: 2000000,
     name: "avatar",
     nullable: true,
   })

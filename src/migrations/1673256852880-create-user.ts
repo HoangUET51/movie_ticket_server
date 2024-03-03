@@ -48,7 +48,7 @@ export class createUser1673256852880 implements MigrationInterface {
             name: "avatar",
             type: "varchar",
             isNullable: true,
-            length: "2000",
+            length: "2000000",
           },
           {
             name: "role",
