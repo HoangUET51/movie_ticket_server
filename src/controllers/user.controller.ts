@@ -80,6 +80,22 @@ class _UserController extends BaseController {
       next(this.getManagedError(e));
     }
   }
+
+  async changePassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userRequested: UserResponse = req.body.user;
+      const { password } = req.body;
+      const userRepository = getCustomRepository(UserRepository);
+      const result = await userRepository.changePassword(
+        userRequested.email,
+        password,
+      );
+
+      this.success(req, res)(result);
+    } catch (e) {
+      next(this.getManagedError(e));
+    }
+  }
 }
 
 const UserController = new _UserController("USER_CONTROLLER");

@@ -153,6 +153,20 @@ class UserRepository extends BaseRepository<User> {
       return null;
     }
   }
+
+  async changePassword(email: string, newPassword: string) {
+    const user = await this.getByEmail(email);
+    if (!user) {
+      throw new AppError("Email is incorrect");
+    }
+    const isCheckPassword = await checkPassword(newPassword, user.password);
+    if (isCheckPassword) {
+      throw new AppError("New password matches the old password");
+    }
+    user.password = hashPassword(newPassword);
+    await this.manager.save(user, { reload: false });
+    return { password: newPassword };
+  }
 }
 
 export default UserRepository;
