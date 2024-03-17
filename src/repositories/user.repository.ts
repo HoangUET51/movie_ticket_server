@@ -9,6 +9,7 @@ import {
 } from "@/models";
 import {
   checkPassword,
+  decodeBase64Image,
   generatePassword,
   hashPassword,
 } from "@/helpers/ulti.helper";
@@ -86,9 +87,10 @@ class UserRepository extends BaseRepository<User> {
       if (!user) {
         throw new AppError("Email is incorrect");
       }
-      user.avatar = avatar;
+      const convertAvatar = decodeBase64Image(avatar);
+      user.avatar = convertAvatar;
       const newUser = await this.manager.save(user, { reload: false });
-      return newUser;
+      return newUser.avatar;
     } catch (e) {
       return null;
     }
@@ -152,6 +154,20 @@ class UserRepository extends BaseRepository<User> {
     } catch (e) {
       return null;
     }
+  }
+
+  async changePassword(email: string, newPassword: string) {
+    const user = await this.getByEmail(email);
+    if (!user) {
+      throw new AppError("Email is incorrect");
+    }
+    const isCheckPassword = await checkPassword(newPassword, user.password);
+    if (isCheckPassword) {
+      throw new AppError("New password matches the old password");
+    }
+    user.password = hashPassword(newPassword);
+    await this.manager.save(user, { reload: false });
+    return { password: newPassword };
   }
 }
 

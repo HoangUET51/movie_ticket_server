@@ -4,6 +4,7 @@ import {
 } from "@/constants/regex.const";
 import bcrypt from "bcryptjs";
 import otpGenerator from "otp-generator";
+import { writeFileSync } from "fs";
 
 export const hashPassword = (password: string) => {
   const salt = bcrypt.genSaltSync(10);
@@ -41,4 +42,15 @@ export const isValidPhoneNumber = (
   phoneNumberFormat = REGEX_PHONE_NUMBER_FORMAT,
 ) => {
   return phoneNumberFormat.test(value);
+};
+
+export const decodeBase64Image = (base64Image: string) => {
+  const arr = base64Image.split(",");
+  const header = arr[0].replace(";base64", "");
+  const formatFile = header.split("/")[1];
+  const path = arr[1];
+  const image = Buffer.from(path, "base64");
+  const dateNow = Date.now();
+  writeFileSync(`./public/avatar/image-${dateNow}.${formatFile}`, image);
+  return `public/avatar/image-${dateNow}.${formatFile}`;
 };

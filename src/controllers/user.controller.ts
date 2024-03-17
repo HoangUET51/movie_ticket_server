@@ -49,7 +49,7 @@ class _UserController extends BaseController {
         throw new AppError("Uploaded failed");
       }
 
-      this.success(req, res)({ result });
+      this.success(req, res)({ avatar: result });
     } catch (e) {
       next(this.getManagedError(e));
     }
@@ -76,6 +76,22 @@ class _UserController extends BaseController {
       sendEmails([mailInfo]);
 
       this.success(req, res)({ isUpdated: true });
+    } catch (e) {
+      next(this.getManagedError(e));
+    }
+  }
+
+  async changePassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userRequested: UserResponse = req.body.user;
+      const { password } = req.body;
+      const userRepository = getCustomRepository(UserRepository);
+      const result = await userRepository.changePassword(
+        userRequested.email,
+        password,
+      );
+
+      this.success(req, res)(result);
     } catch (e) {
       next(this.getManagedError(e));
     }
