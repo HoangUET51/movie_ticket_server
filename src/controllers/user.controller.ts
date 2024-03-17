@@ -49,7 +49,7 @@ class _UserController extends BaseController {
         throw new AppError("Uploaded failed");
       }
 
-      this.success(req, res)({ result });
+      this.success(req, res)({ avatar: result });
     } catch (e) {
       next(this.getManagedError(e));
     }

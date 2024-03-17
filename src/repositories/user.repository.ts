@@ -9,6 +9,7 @@ import {
 } from "@/models";
 import {
   checkPassword,
+  decodeBase64Image,
   generatePassword,
   hashPassword,
 } from "@/helpers/ulti.helper";
@@ -86,9 +87,10 @@ class UserRepository extends BaseRepository<User> {
       if (!user) {
         throw new AppError("Email is incorrect");
       }
-      user.avatar = avatar;
+      const convertAvatar = decodeBase64Image(avatar);
+      user.avatar = convertAvatar;
       const newUser = await this.manager.save(user, { reload: false });
-      return newUser;
+      return newUser.avatar;
     } catch (e) {
       return null;
     }
